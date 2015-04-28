@@ -1,0 +1,135 @@
+Manifest-Version: 1.0
+Export-Package: org.jboss.netty.handler.codec.serialization;uses:="org
+ .jboss.netty.buffer,org.jboss.netty.handler.codec.replay,org.jboss.ne
+ tty.channel,org.jboss.netty.handler.codec.oneone,org.jboss.netty.hand
+ ler.codec.frame";version="3.2.2.Final",org.jboss.netty.util;uses:="or
+ g.jboss.netty.buffer,org.jboss.netty.channel,org.jboss.netty.logging"
+ ;version="3.2.2.Final",org.jboss.netty.handler.codec.compression;uses
+ :="org.jboss.netty.buffer,org.jboss.netty.channel,org.jboss.netty.han
+ dler.codec.oneone";version="3.2.2.Final",org.jboss.netty.handler.exec
+ ution;uses:="org.jboss.netty.channel,org.jboss.netty.util,org.jboss.n
+ etty.logging";version="3.2.2.Final",org.jboss.netty.channel.local;use
+ s:="org.jboss.netty.channel,org.jboss.netty.logging";version="3.2.2.F
+ inal",org.jboss.netty.bootstrap;uses:="org.jboss.netty.channel,org.jb
+ oss.netty.util";version="3.2.2.Final",org.jboss.netty.handler.codec.b
+ ase64;uses:="org.jboss.netty.buffer,org.jboss.netty.channel,org.jboss
+ .netty.handler.codec.oneone,org.jboss.netty.util";version="3.2.2.Fina
+ l",org.jboss.netty.handler.timeout;uses:="org.jboss.netty.channel,org
+ .jboss.netty.util";version="3.2.2.Final",org.jboss.netty.channel.sock
+ et.nio;uses:="org.jboss.netty.logging,org.jboss.netty.channel.socket,
+ org.jboss.netty.channel,org.jboss.netty.util,org.jboss.netty.buffer";
+ version="3.2.2.Final",org.jboss.netty.handler.codec.http.websocket;us
+ es:="org.jboss.netty.buffer,org.jboss.netty.util,org.jboss.netty.hand
+ ler.codec.replay,org.jboss.netty.handler.codec.frame,org.jboss.netty.
+ channel,org.jboss.netty.handler.codec.oneone";version="3.2.2.Final",o
+ rg.jboss.netty.handler.codec.replay;uses:="org.jboss.netty.buffer,org
+ .jboss.netty.channel";version="3.2.2.Final",org.jboss.netty.handler.c
+ odec.string;uses:="org.jboss.netty.buffer,org.jboss.netty.channel,org
+ .jboss.netty.handler.codec.oneone";version="3.2.2.Final",org.jboss.ne
+ tty.channel;uses:="org.jboss.netty.buffer,org.jboss.netty.util,org.jb
+ oss.netty.logging";version="3.2.2.Final",org.jboss.netty.handler.ssl;
+ uses:="org.jboss.netty.channel,javax.net.ssl,org.jboss.netty.logging,
+ org.jboss.netty.buffer,org.jboss.netty.handler.codec.frame";version="
+ 3.2.2.Final",org.jboss.netty.container.spring;uses:="org.jboss.netty.
+ logging";version="3.2.2.Final",org.jboss.netty.container.microcontain
+ er;uses:="org.jboss.netty.logging";version="3.2.2.Final",org.jboss.ne
+ tty.handler.codec.rtsp;uses:="org.jboss.netty.buffer,org.jboss.netty.
+ channel,org.jboss.netty.handler.codec.http,org.jboss.netty.handler.co
+ dec.embedder";version="3.2.2.Final",org.jboss.netty.handler.codec.pro
+ tobuf;uses:="org.jboss.netty.buffer,org.jboss.netty.channel,org.jboss
+ .netty.handler.codec.oneone,com.google.protobuf,org.jboss.netty.handl
+ er.codec.frame";version="3.2.2.Final",org.jboss.netty.channel.socket.
+ http;uses:="org.jboss.netty.channel,org.jboss.netty.channel.socket,or
+ g.jboss.netty.handler.codec.http,javax.net.ssl,org.jboss.netty.handle
+ r.ssl,org.jboss.netty.buffer,org.jboss.netty.logging,javax.servlet,or
+ g.jboss.netty.channel.local,javax.servlet.http";version="3.2.2.Final"
+ ,org.jboss.netty.channel.group;uses:="org.jboss.netty.channel,org.jbo
+ ss.netty.buffer,org.jboss.netty.logging";version="3.2.2.Final",org.jb
+ oss.netty.handler.codec.embedder;uses:="org.jboss.netty.channel,org.j
+ boss.netty.buffer";version="3.2.2.Final",org.jboss.netty.channel.sock
+ et.oio;uses:="org.jboss.netty.channel,org.jboss.netty.channel.socket,
+ org.jboss.netty.util,org.jboss.netty.buffer,org.jboss.netty.logging";
+ version="3.2.2.Final",org.jboss.netty.handler.codec.frame;uses:="org.
+ jboss.netty.buffer,org.jboss.netty.channel,org.jboss.netty.handler.co
+ dec.oneone";version="3.2.2.Final",org.jboss.netty.handler.codec.oneon
+ e;uses:="org.jboss.netty.channel";version="3.2.2.Final",org.jboss.net
+ ty.container.osgi;uses:="org.jboss.netty.logging,org.osgi.framework";
+ version="3.2.2.Final",org.jboss.netty.logging;uses:="org.apache.commo
+ ns.logging,org.jboss.logging,org.apache.log4j,org.osgi.service.log,or
+ g.osgi.util.tracker,org.osgi.framework,org.slf4j";version="3.2.2.Fina
+ l",org.jboss.netty.buffer;uses:="org.jboss.netty.util";version="3.2.2
+ .Final",org.jboss.netty.handler.codec.http;uses:="org.jboss.netty.buf
+ fer,org.jboss.netty.handler.codec.frame,org.jboss.netty.channel,org.j
+ boss.netty.util,org.jboss.netty.handler.codec.compression,org.jboss.n
+ etty.handler.codec.embedder,org.jboss.netty.handler.codec.replay,org.
+ jboss.netty.handler.codec.oneone";version="3.2.2.Final",org.jboss.net
+ ty.handler.queue;uses:="org.jboss.netty.channel,org.jboss.netty.buffe
+ r";version="3.2.2.Final",org.jboss.netty.channel.socket;uses:="org.jb
+ oss.netty.channel";version="3.2.2.Final",org.jboss.netty.handler.logg
+ ing;uses:="org.jboss.netty.logging,org.jboss.netty.buffer,org.jboss.n
+ etty.channel";version="3.2.2.Final",org.jboss.netty.handler.stream;us
+ es:="org.jboss.netty.buffer,org.jboss.netty.channel,org.jboss.netty.l
+ ogging";version="3.2.2.Final"
+Built-By: trustin
+Tool: Bnd-0.0.357
+Bundle-Name: The Netty Project
+Created-By: Apache Maven Bundle Plugin
+Bundle-Vendor: JBoss, a division of Red Hat, Inc.
+SCM-Revision: 2361
+Build-Jdk: 1.6.0_21
+Bundle-Version: 3.2.2.Final
+Bnd-LastModified: 1283148950704
+Bundle-Activator: org.jboss.netty.container.osgi.NettyBundleActivator
+Bundle-ManifestVersion: 2
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0
+Bundle-Description: The Netty project is an effort to provide an async
+ hronous event-driven    network application framework and tools for r
+ apid development of    maintainable high performance and high scalabi
+ lity protocol servers and    clients.  In other words, Netty is a NIO
+  client server framework which    enables quick and easy development 
+ of network applications such as protocol    servers and clients. It g
+ reatly simplifies and streamlines network    programming such as TCP 
+ and UDP socket server.
+Bundle-DocURL: http://www.jboss.org/netty/
+Bundle-SymbolicName: org.jboss.netty
+Import-Package: com.google.protobuf;resolution:=optional,javax.net.ssl
+ ;resolution:=optional,javax.servlet;resolution:=optional,javax.servle
+ t.http;resolution:=optional,org.apache.commons.logging;resolution:=op
+ tional,org.apache.log4j;resolution:=optional,org.jboss.logging;resolu
+ tion:=optional,org.jboss.netty.bootstrap;resolution:=optional;version
+ ="3.2",org.jboss.netty.buffer;resolution:=optional;version="3.2",org.
+ jboss.netty.channel;resolution:=optional;version="3.2",org.jboss.nett
+ y.channel.group;resolution:=optional;version="3.2",org.jboss.netty.ch
+ annel.local;resolution:=optional;version="3.2",org.jboss.netty.channe
+ l.socket;resolution:=optional;version="3.2",org.jboss.netty.channel.s
+ ocket.http;resolution:=optional;version="3.2",org.jboss.netty.channel
+ .socket.nio;resolution:=optional;version="3.2",org.jboss.netty.channe
+ l.socket.oio;resolution:=optional;version="3.2",org.jboss.netty.conta
+ iner.microcontainer;resolution:=optional;version="3.2",org.jboss.nett
+ y.container.osgi;resolution:=optional;version="3.2",org.jboss.netty.c
+ ontainer.spring;resolution:=optional;version="3.2",org.jboss.netty.ha
+ ndler.codec.base64;resolution:=optional;version="3.2",org.jboss.netty
+ .handler.codec.compression;resolution:=optional;version="3.2",org.jbo
+ ss.netty.handler.codec.embedder;resolution:=optional;version="3.2",or
+ g.jboss.netty.handler.codec.frame;resolution:=optional;version="3.2",
+ org.jboss.netty.handler.codec.http;resolution:=optional;version="3.2"
+ ,org.jboss.netty.handler.codec.http.websocket;resolution:=optional;ve
+ rsion="3.2",org.jboss.netty.handler.codec.oneone;resolution:=optional
+ ;version="3.2",org.jboss.netty.handler.codec.protobuf;resolution:=opt
+ ional;version="3.2",org.jboss.netty.handler.codec.replay;resolution:=
+ optional;version="3.2",org.jboss.netty.handler.codec.rtsp;resolution:
+ =optional;version="3.2",org.jboss.netty.handler.codec.serialization;r
+ esolution:=optional;version="3.2",org.jboss.netty.handler.codec.strin
+ g;resolution:=optional;version="3.2",org.jboss.netty.handler.executio
+ n;resolution:=optional;version="3.2",org.jboss.netty.handler.logging;
+ resolution:=optional;version="3.2",org.jboss.netty.handler.queue;reso
+ lution:=optional;version="3.2",org.jboss.netty.handler.ssl;resolution
+ :=optional;version="3.2",org.jboss.netty.handler.stream;resolution:=o
+ ptional;version="3.2",org.jboss.netty.handler.timeout;resolution:=opt
+ ional;version="3.2",org.jboss.netty.logging;resolution:=optional;vers
+ ion="3.2",org.jboss.netty.util;resolution:=optional;version="3.2",org
+ .osgi.framework;resolution:=optional;version="1.5",org.osgi.service.l
+ og;resolution:=optional;version="1.3",org.osgi.util.tracker;resolutio
+ n:=optional;version="1.4",org.slf4j;resolution:=optional;version="1.5
+ "
+
