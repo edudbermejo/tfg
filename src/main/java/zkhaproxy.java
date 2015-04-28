@@ -15,11 +15,9 @@ import static java.nio.file.StandardCopyOption.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
-//import java.nio.file.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.*;
-
 import org.slf4j.*;
 
 
@@ -29,10 +27,6 @@ public class zkhaproxy implements Watcher {
 	ZooKeeper zk;
 	String hostPort;
 	String s = null; // Contain output of process p.
-	//Random random = new Random(); // not in the example code.
-	//String serverId = Integer.toHexString(random.nextInt()); // Our serverId fot the moment will be a random number.
-	/*int startLine = 32; //The line in wich the servers config appears on haproxy.conf
-	int numServers = 33; //How many servers we have registered on the file. */
 
 	Path pathO, path; //Paths for the original conf file and the destination.
 	
@@ -113,12 +107,6 @@ public class zkhaproxy implements Watcher {
 		exit.close();
 		
 		Process p = Runtime.getRuntime().exec("service haproxy reload");
-		//Process p = Runtime.getRuntime().exec("haproxy -f /etc/haproxy/haproxy.cfg -p $(</var/run/haproxy-private.pid) -st $(</var/run/haproxy-private.pid)");
-		//Process p = Runtime.getRuntime().exec("touch /home/pepper/workingjava ");
-		//Process p = Runtime.getRuntime().exec(new String[] {"haproxy", "-f", "/etc/haproxy/haproxy.cfg", "-p", "/var/run/haproxy.pid", "-sf", "$(cat /var/run/haproxy.pid)"});
-		//Process p22 = Runtime.getRuntime().exec(new String[] {"echo", "funcionando funcionando"});
-		//Process p = Runtime.getRuntime().exec("/home/pepper/scriptproxy"); // Execute an external script with the propper command for haproxy. 
-		//ProcessBuilder b = new ProcessBuilder("/home/pepper/scriptproxy");
 
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
@@ -140,9 +128,8 @@ public class zkhaproxy implements Watcher {
 			
 			w.checkServers();
 			
-			//Thread.sleep(600000); //This is not very elegant but it's the only way i known from preventing the main thread to end.
 			while(true){
-				Thread.sleep(1000);
+				Thread.sleep(1000); // So the process never ends.
 			}
 	}
 }
