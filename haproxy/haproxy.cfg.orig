@@ -1,0 +1,42 @@
+global
+        log 127.0.0.1   local0
+        log 127.0.0.1   local1 notice
+        #log loghost    local0 info
+        maxconn 4096
+        #debug
+        #quiet
+        user haproxy
+        group haproxy
+
+defaults
+        log     global
+        mode    http
+        option  httplog
+        option  dontlognull
+        retries 3
+        option redispatch
+        maxconn 2000
+        contimeout      5000
+        clitimeout      50000
+        srvtimeout      50000
+
+listen stats 192.168.0.19:9000
+	mode http
+	balance
+	timeout client 5000
+	timeout connect 4000
+	timeout server 30000
+	stats uri /haproxy_stats
+	stats realm HAProxy/Statistics
+	stats auth admin:passss
+	stats admin if TRUE
+
+listen webfarm 192.168.0.19:80
+       mode http
+       stats enable
+       stats auth someuser:somepassword
+       balance roundrobin
+       cookie JSESSIONID prefix
+       option httpclose
+       option forwardfor
+       option httpchk HEAD /check.txt HTTP/1.0
