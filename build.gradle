@@ -21,9 +21,4 @@ dependencies {
 	compile group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.4.5'
 }
 
-jar{
-	manifest{
-		attributes 'Main-class': 'zkhaproxy'
-	}
-}
 	
