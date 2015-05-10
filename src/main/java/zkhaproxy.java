@@ -30,7 +30,7 @@ public class zkhaproxy implements Watcher {
 
 	Path pathO, path; //Paths for the original conf file and the destination.
 	
-	zkhaproxy(String hostPort){
+	zkhaproxy(String hostPort){ //On creation the port where to connect is specified.
 		this.hostPort = hostPort;
 	}
 	
@@ -38,8 +38,8 @@ public class zkhaproxy implements Watcher {
 		zk = new ZooKeeper(hostPort, 15000, this); // We connect to the server and stablish a sesion.
 	}
 	
-	public void process(WatchedEvent e){
-		if(e.getType() == EventType.NodeChildrenChanged){
+	public void process(WatchedEvent e){ // If a watcher triggers.
+		if(e.getType() == EventType.NodeChildrenChanged){ //Of the type we want to recive callback from.
 			assert "/web/malaria".equals(e.getPath()); // We check that the directory is the one from we want feedback.
 			checkServers();
 		}
@@ -55,7 +55,7 @@ public class zkhaproxy implements Watcher {
 				case CONNECTIONLOSS: 
 					checkServers(); //In case we lose the connection we retry.
 					break;
-				case OK:
+				case OK: //If sucess we update the conf file.
 					try{
 						updateConfFile(children); 
 					} catch(IOException e) {
@@ -75,18 +75,17 @@ public class zkhaproxy implements Watcher {
 		Files.copy(pathO, path, REPLACE_EXISTING); // We copy the original file of configuration, it lacks the lines containing 
 		// the information about the servers which is what we are going to append. 
 		
-		File confile  = new File("/etc/haproxy/haproxy.cfg");
-		
+		File confile  = new File("/etc/haproxy/haproxy.cfg"); //Final path for the conf file.
 		FileWriter exit = new FileWriter(confile, true);
 		
 		int num = 0;		
 		
 		for (String serv : list){
 			try {
-				byte[] data = zk.getData("/web/malaria/"+serv, false, null); // Retrieve the concerning information of the server.
+				byte[] data = zk.getData("/web/malaria/"+serv, false, null); // Retrieve the concerning information of the server in a sinchronous way si it doesn't get messy.
 				
 				char letter = 'A';
-				letter =(char) (((int) letter) + num);
+				letter =(char) (((int) letter) + num); //We need to increment the letter of the server on each loop.
 				
 				System.out.println("Escribiendo datos del servidor " + new String(data) + " en el fichero.");
 				
@@ -106,14 +105,14 @@ public class zkhaproxy implements Watcher {
 		System.out.println("Cambios en el fichero realizados. \n");
 		exit.close();
 		
-		Process p = Runtime.getRuntime().exec("service haproxy reload");
+		Process p = Runtime.getRuntime().exec("service haproxy reload"); //This is where we tell HAProxy to reload its conf file.
 
+		//We take the console exit for the last comand so we can watch if it all went ok or maybe an error happened.
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 
 		while((s=stdInput.readLine()) != null)
 			System.out.println(s);
-
 		while((s=stdError.readLine()) != null)
 			System.out.println(s);
 		
@@ -122,7 +121,7 @@ public class zkhaproxy implements Watcher {
 		
 		public static void main(String args[]) throws Exception, IOException{
 			
-			zkhaproxy w = new zkhaproxy("192.168.0.22:2181");
+			zkhaproxy w = new zkhaproxy("192.168.0.22:2181"); //We set the direction manually.
 			
 			w.startZK();
 			
