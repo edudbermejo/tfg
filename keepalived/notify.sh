@@ -1,4 +1,7 @@
 #!/bin/bash
+# Use for logging and fencing by keepalived. If we are master we create an empty
+# file named MASTER and initialize haproxy and zkhaproxy. If not we erase the 
+# MASTER file and shutdown the jobs, trying it to be gracefully in haproxy case.
 
 STATE=$1
 NOW=$(date +"%D %T")

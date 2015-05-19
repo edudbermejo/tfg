@@ -17,26 +17,27 @@ defaults
         option redispatch
         maxconn 2000
         contimeout      5000
-        clitimeout      50000
-        srvtimeout      50000
+        clitimeout      50000 #timeout for client
+        srvtimeout      50000 #timeout por server
 
-listen stats 192.168.0.19:9000
+listen stats 192.168.0.19:9000 #where to listen for stats.
+	#the complete url is 192.168.0.19:9000/haproxy_stats
 	mode http
-	balance
+	#balance
 	timeout client 5000
 	timeout connect 4000
 	timeout server 30000
-	stats uri /haproxy_stats
+	stats uri /haproxy_stats #add to url to access the stats
 	stats realm HAProxy/Statistics
-	stats auth admin:passss
-	stats admin if TRUE
+	stats auth admin:passss #credentials for acessing.
+	stats admin if TRUE #allow superuser functions through the GUI.
 
-listen webfarm 192.168.0.19:80
+listen webfarm 192.168.0.19:80 #where to listen for clients connetions.
        mode http
        stats enable
-       stats auth someuser:somepassword
-       balance roundrobin
+       #stats auth someuser:somepassword
+       balance roundrobin #algorithm for balance. Pseudorandom in our case.
        cookie JSESSIONID prefix
        option httpclose
        option forwardfor
-       option httpchk HEAD /check.txt HTTP/1.0
+       option httpchk HEAD /check.txt HTTP/1.0 #servers are chekec trying to get the check.txt file.
