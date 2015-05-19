@@ -28,7 +28,7 @@ public class zkhaproxy implements Watcher {
 	String hostPort;
 	String s = null; // Contain output of process p.
 
-	Path pathO, path; //Paths for the original conf file and the destination.
+	Path pathOrig, finalPath, pathTemp; //Paths for the original conf file and the destination.
 	
 	zkhaproxy(String hostPort){ //On creation the port where to connect is specified.
 		this.hostPort = hostPort;
@@ -46,16 +46,19 @@ public class zkhaproxy implements Watcher {
 	}
 		
 	void checkServers(){
-		zk.getChildren("/web/malaria", true, checkServersCallback, null); // The web servers must be under /web/malaria. We set a watcher.
+	/* Retrieve the list of avaible servers and set a watcher under the node
+	so it triggers if anything changes under it */
+		zk.getChildren("/web/malaria", true, checkServersCallback, null); 
 	}
 
 	ChildrenCallback checkServersCallback = new ChildrenCallback (){ 
 		public void processResult(int rc, String path, Object ctx, List<String> children){
+	// If sucess the list children may have the names of all the servers.
 			switch(Code.get(rc)){
 				case CONNECTIONLOSS: 
-					checkServers(); //In case we lose the connection we retry.
+					checkServers(); // retry.
 					break;
-				case OK: //If sucess we update the conf file.
+				case OK: // update the conf file.
 					try{
 						updateConfFile(children); 
 					} catch(IOException e) {
@@ -68,14 +71,22 @@ public class zkhaproxy implements Watcher {
 		};
 	
 	void updateConfFile(List<String> list) throws IOException{
+	/* A template of the conf file without exist with the path /etc/haproxy/haproxy.cfg.orig .
+	We copy it to a new file, connect to zookeeper to get the metadata of the servers
+	(its ip and port) and write it to the file. If all goes ok we rewrite the 
+	principal conf file and tell haproxy to reload the data. Otherwise we just
+	retry. */
 
-		pathO = Paths.get("/etc/haproxy/haproxy.cfg.orig"); // Path of template for haproxy.cfg
-		path =  Paths.get("/etc/haproxy/haproxy.cfg"); // Path for haproxy.cfg
+		pathOrig = Paths.get("/etc/haproxy/haproxy.cfg.orig"); // Path of template for haproxy.cfg
+		pathTemp = Paths.get("/etc/haproxy/haproxy.cfg.temp"); // Path for the temp file.
+		finalPath =  Paths.get("/etc/haproxy/haproxy.cfg"); // Path for haproxy.cfg
 		
-		Files.copy(pathO, path, REPLACE_EXISTING); // We copy the original file of configuration, it lacks the lines containing 
+		boolean error = false; // Variable for error cheking.
+		
+		Files.copy(pathOrig, pathTemp, REPLACE_EXISTING); // We copy the original file of configuration, it lacks the lines containing 
 		// the information about the servers which is what we are going to append. 
 		
-		File confile  = new File("/etc/haproxy/haproxy.cfg"); //Final path for the conf file.
+		File confile  = new File("/etc/haproxy/haproxy.cfg.temp"); //Final path for the conf file.
 		FileWriter exit = new FileWriter(confile, true);
 		
 		int num = 0;		
@@ -96,26 +107,34 @@ public class zkhaproxy implements Watcher {
 				
 				num++;
 				
-			}catch (KeeperException e) { // Esperemos que nunca de este error =D
+			}catch (KeeperException e) {
+				error = true; break;
 			}catch (InterruptedException e){
+				error = true; break;
 			}
 
 		}
 		
-		System.out.println("Cambios en el fichero realizados. \n");
 		exit.close();
-		
-		Process p = Runtime.getRuntime().exec("service haproxy reload"); //This is where we tell HAProxy to reload its conf file.
 
-		//We take the console exit for the last comand so we can watch if it all went ok or maybe an error happened.
-		BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-		BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-
-		while((s=stdInput.readLine()) != null)
-			System.out.println(s);
-		while((s=stdError.readLine()) != null)
-			System.out.println(s);
+		if (!error){	
+			Files.copy(pathTemp, finalPath, REPLACE_EXISTING);
+			
+			System.out.println("Changes on file finished. \n");
 		
+			Process p = Runtime.getRuntime().exec("service haproxy reload"); //This is where we tell HAProxy to reload its conf file.
+
+			//We take the console exit for the last comand so we can watch if it all went ok or maybe an error happened.
+			BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+
+			while((s=stdInput.readLine()) != null)
+				System.out.println(s);
+			while((s=stdError.readLine()) != null)
+				System.out.println(s);
+		} else {
+			checkServers();	
+		}
 		
 	}
 		
@@ -127,8 +146,10 @@ public class zkhaproxy implements Watcher {
 			
 			w.checkServers();
 			
+			/* As we don't want the main program to end cause we have Watchers on
+			Zookeeper that have to be processed we send it to an eternal loop */
 			while(true){
-				Thread.sleep(1000); // So the process never ends.
+				Thread.sleep(1000); 
 			}
 	}
 }
