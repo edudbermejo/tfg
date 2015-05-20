@@ -12,6 +12,7 @@ import org.apache.zookeeper.Watcher.Event.EventType.*;
 import org.apache.zookeeper.Watcher.Event.*;
 import java.io.IOException;
 import static java.nio.file.StandardCopyOption.*;
+import java.nio.file.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
@@ -19,6 +20,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.*;
 import org.slf4j.*;
+import java.nio.file.StandardCopyOption;
 
 
 public class zkhaproxy implements Watcher {
@@ -118,7 +120,12 @@ public class zkhaproxy implements Watcher {
 		exit.close();
 
 		if (!error){	
-			Files.copy(pathTemp, finalPath, REPLACE_EXISTING);
+			/* We are going to move the third file (haproxy.conf.temp) on haproxy.cfg in an
+			atomic way: either it's perfectly replace or not replaced at all. We do this to
+			prevent the file to be corrupted due to failures in execution. */
+			CopyOption[] options = new CopyOption[]{ StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE};
+				
+			Files.move(pathTemp, finalPath, options); 
 			
 			System.out.println("Changes on file finished. \n");
 		
